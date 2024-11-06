@@ -1,0 +1,194 @@
+﻿@model EcommerceStore.Model.ViewModels.ShoppingCartViewModel
+
+<form method="post">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 order-0 order-lg-1">
+                <div class="row p-4">
+                    <h2 class="text-primary text-center text-lg-start"><i class="fas fa-shopping-cart"></i> &nbsp; Cart</h2>
+                </div>
+            </div>
+            <div class="col-lg-4 order-1">
+                <div class="row m-2">
+                    <a asp-area="User" asp-controller="Home" asp-action="Index" class="btn btn-outline-dark rounded w-100">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 order-1 order-lg-0">
+                <div class="row">
+                    @foreach (var item in Model.ListCart)
+                    {
+                        <div class="col-6 col-sm-12">
+                            <div class="card rounded-3 m-1">
+                                <div class="card-body">
+                                    <div class="row order-0">
+                                        <div class="col-sm-2 col-lg-2 pt-2">
+                                            <img src="@item.Product.ImageUrl" onerror="this.error=null; this.src='\\images\\products\\no-image-found.jpg';" class="card-img rounded" />
+                                        </div>
+                                        <div class="col-sm-6 col-lg-7">
+                                            <div class="row">
+                                                <span class="card-title h4 text-primary"><b>@item.Product.Title</b></span>
+                                            </div>
+                                            <div class="row">
+                                                <span class="card-title text-info"><b>@item.Product.Author</b></span>
+                                            </div>
+                                            <div class="row">
+                                                <span class="card-title text-primary">Seller name</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3  col-lg-2">
+                                            <div class="row">
+                                                <p>
+                                                    <span class="currency">SAR</span>
+                                                    <span class="h3"><b>@((item.Product.Price * item.Count).ToString("0.00"))</b></span>
+                                                </p>
+                                            </div>
+                                            <div class="row">
+                                                <p>
+                                                    <span class="list-price"><strike>@item.Product.ListPrice.ToString("0.00")</strike></span>
+                                                    <span class="discount">@item.Product.ListPrice.ToString("00")% OFF</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-2  col-xl-2">
+                                        </div>
+                                        <div class="col-sm-4  col-xl-3">
+                                            <a asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-outline-dark rounded-3 w-100">
+                                                <i class="bi bi-trash-fill"></i> Remove
+                                            </a>
+                                        </div>
+                                        <div class="col-sm-2 col-xl-4">
+                                        </div>
+                                        <div class="col-sm-4 col-xl-3 pt-1 d-flex justify-content-center">
+                                            <div class="row">
+                                                <div class="col-5 col-sm-4 col-lg-4">
+                                                    <a asp-action="Plus" asp-route-cartId="@item.Id" class="btn btn-outline-dark rounded-3">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="col-2 col-sm-2 col-lg-2">
+                                                    <p class="text-center"><span class="h2"><strong>@item.Count</strong></span></p>
+                                                </div>
+                                                <div class="col-5 col-sm-2 col-lg-4">
+                                                    <a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-outline-dark rounded-3">
+                                                        <i class="fa fa-minus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="col-lg-4 order-0">
+                <div class="card rounded-3 m-2 mt-2">
+                    <div class="card-body">
+                        <div class="row p-1 p-sm-4">
+                            <h3 class="text-primary">Order Summary</h3>
+                        </div>
+                        <div class="row">
+                            <ul class="">
+                                <li class="d-flex justify-content-between ">
+                                    <span class="text-primary"> Total (USD)</span>
+                                    <strong class="text-primary">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row list-group">
+                            <div class="list-group-item  d-flex justify-content-between">
+                                <span class="text-info"> Total (USD)</span>
+                                <strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="Summary" class="btn btn-primary form-control">CHECKOUT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+@* <form method="post">
+    <div class="container">
+        <div class="card">
+            <div class="card-header bg-dark text-light m-0">
+                <div class="row">
+                    <div class="col-6  pt-2">
+                        <i class="fa fa-shopping-cart"></i> &nbsp;
+                        Shopping Cart
+                    </div>
+                    <div class="col-6 text-end">
+                        <a asp-area="User" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                @foreach (var item in Model.ListCart)
+                {
+                    <div class="row">
+                        <div class="d-none d-lg-block col-lg-1 text-center py-2">
+                            <img src="@item.Product.ImageUrl" class="rounded" width="100%" />
+                        </div>
+                        <div class="col-12 col-lg-6 pt-md-3">
+                            <h5><strong>@item.Product.Title</strong></h5>
+                            <p><small>@Html.Raw(item.Product.Description)</small></p>
+                        </div>
+                        <div class="col-12  col-lg-5 text-center row">
+                            <div class="col-4 text-md-right pt-4">
+                                <h6><strong>@item.Price.ToString("c")<span class="text-muted"> x </span> @item.Count </strong></h6>
+                            </div>
+                            <div class="col-6 col-sm-4 col-lg-6 pt-2">
+                                <div class="w-75 btn-group" role="group">
+                                    <a asp-action="Plus" asp-route-cartId="@item.Id" class="btn btn-primary">
+                                        <i class="bi bi-plus-square"></i>
+                                    </a> &nbsp;
+                                    <a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-warning">
+                                        <i class="bi bi-dash-square"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                            <div class="col-2 col-sm-4 col-lg-2 text-right pt-2">
+                                <a asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-danger">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                }
+                <div class="row">
+                    <div class="col-12 col-md-6 offset-md-6 col-lg-4 offset-lg-8 pr-4">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between bg-light">
+                                <span class="text-info"> Total (USD)</span>
+                                <strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card-footer">
+                <div class="card-footer row">
+                    <div class="col-sm-12 col-lg-4 col-md-6 offset-lg-8 offset-md-6 ">
+                        <a asp-action="Summary" class="btn btn-success form-control">Summary</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form> *@

@@ -1,0 +1,184 @@
+﻿@model EcommerceStore.Model.ViewModels.ProductViewModel
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    <input asp-for="Product.Id" hidden />
+    <input asp-for="Product.ImageUrl" hidden />
+    <div class="row">
+        <div class="col-lg-8 p-4 order-1 order-lg-0">
+            <h2 class="text-primary text-center text-lg-start">@(Model.Product.Id != 0 ? "Edit" : "Create") Product</h2>
+        </div>
+        <div class="col-lg-4 p-4 order-0 order-lg-1  d-flex justify-content-end">
+            <a asp-controller="Product" asp-action="Index" class="btn btn-outline-dark rounded-3 w-100">
+                Back to List
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12" )>
+            <div class="border p-3 mt-4 row">
+                @*<div asp-validation-summary="All"></div>*@
+                <div class="col-6">
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.CategoryId">Category</label>
+                        <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select">
+                            <option disabled selected>--Select Category--</option>
+                        </select>
+                        <span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Product.Title"></label>
+                        <input asp-for="Product.Title" class="form-control" />
+                        <span asp-validation-for="Product.Title" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Product.Description"></label>
+                        <textarea asp-for="Product.Description" rows="3" class="form-control"></textarea>
+                        <span asp-validation-for="Product.Description" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.ISBN"></label>
+                        <input asp-for="Product.ISBN" class="form-control" />
+                        <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.Author"></label>
+                        <input asp-for="Product.Author" class="form-control" />
+                        <span asp-validation-for="Product.Author" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.ListPrice"></label>
+                        <input asp-for="Product.ListPrice" class="form-control" />
+                        <span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.Price"></label>
+                        <input asp-for="Product.Price" class="form-control" />
+                        <span asp-validation-for="Product.Price" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.Price50"></label>
+                        <input asp-for="Product.Price50" class="form-control" />
+                        <span asp-validation-for="Product.Price50" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.Price100"></label>
+                        <input asp-for="Product.Price100" class="form-control" />
+                        <span asp-validation-for="Product.Price100" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.CoverTypeId">Cover Type</label>
+                        <select asp-for="Product.CoverTypeId" asp-items="@Model.CoverTypeList" class="form-select">
+                            <option disabled selected>--Select Cover Type--</option>
+                        </select>
+                        <span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3 col-6">
+                        <label asp-for="Product.GenreId">Genre</label>
+                        <select asp-for="Product.GenreId" asp-items="@Model.GenreList" class="form-select">
+                            <option disabled selected>--Select Cover Type--</option>
+                        </select>
+                        <span asp-validation-for="Product.GenreId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <div class="row mb-3" id="product-image-container">
+                        <label>Images:</label>
+                        @if (Model.Product.Id != 0 && Model.Product.ImageUrl != null)
+                        {
+                            var imagelist = Model.Product.ImageUrl.Split(',').ToList();
+                            @foreach (var imageurl in imagelist)
+                            {
+                                @if (imageurl != "")
+                                {
+                                    <div class="col-lg-2 col-sm-4 col-xs-4 col-xxs-6 d-flex justify-content-evenly  p-1 card rounded-3 m-1">
+                                        <div class="image-body">
+                                            <div class="image-icon-container p-1">
+                                                <div class="image-icon rounded-3 p-1">
+                                                    <a href="@Url.Action("RemoveImage","Product",new{id=Model.Product.Id,imageUrl=imageurl})" class="image-icon-btn rounded-3 p-1">
+                                                        <i class="far fa-trash-alt ms-1"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <img src="@imageurl" onerror="this.error=null;this.src='\\images\\products\\no-image-found.jpg';" class="card-img-top rounded-3 " />
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                    <div class="row">
+                        @if(Model.Product.Id == 0)
+                        {
+                            <label>No more than 10 images can be uploaded per product.</label>
+                        }
+                        <section class="pb-4">
+                            <div class="border rounded-5">
+                                <section class="p-4 d-flex justify-content-center w-100">
+                                    <div class="file-upload-wrapper">
+                                        <input id="dnd-multiple-files" name="files" type="file" class="file-upload-input has-multiple" data-mdb-file-upload-init accept multiple="true" />
+                                    </div>
+                                </section>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    @if (Model.Product.Id != 0)
+                    {
+                        <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+                    }
+                    else
+                    {
+                        <button type="submit" onclick="return ValidateInput()" class="btn btn-primary" style="width:150px">Create</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+    <script src="~/js/images.js"></script>
+
+    <script>
+
+
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        });
+
+        const options = {
+            maxFileSize: Infinity,
+            defaultFile: null,
+            height: null,
+            disabled: false,
+            multiple: true,
+            acceptedExtensions: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif", "webp", "tiff", "tif", "psd", "raw", "arw", "cr2", "nrw", "k25", "bmp", "dib", "heif", "heic", "ind", "indd", "indt", "jp2", "j2k", "jpf", "jpx", "jpm", "mj2", "svg", "svgz", "eps", "ai", "pdf"],
+            defaultMsg: 'Drag and drop a file here or click',
+            mainError: 'Ooops, something wrong happended.',
+            maxSizeError: 'Your file is too big (Max size ~~~)',
+            formatError: 'Your file has incorrect file format (correct format(s) ~~~)',
+            quantityError: 'Too many files (allowed quantity of files ~~~)',
+            previewMsg: 'Drag and drop or click to replace',
+            removeBtn: 'Remove',
+            disabledRemoveBtn: false,
+            maxFileQuantity: 10
+        };
+
+        const SELECTOR_DATA_INIT = '[data-mdb-file-upload-init]';
+        const dndElements = document.querySelectorAll(SELECTOR_DATA_INIT);
+        dndElements.forEach(dnd => {
+            let instance = FileUpload.getInstance(dnd);
+            if (!instance) {
+                instance = new FileUpload(dnd, options);
+            }
+            return instance;
+        });
+    </script>
+}
