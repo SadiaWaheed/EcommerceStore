@@ -16,4 +16,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EcommerceStore.Model\EcommerceStore.Model.csproj" />
+    <ProjectReference Include="..\EcommerceStore.Utility\EcommerceStore.Utility.csproj" />
+  </ItemGroup>
+
 </Project>
