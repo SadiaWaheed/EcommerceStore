@@ -8,10 +8,10 @@ namespace EcommerceStore.DataAccess.DbInitializer
 {
     public class DbInitializer : IDbInitializer
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<IdentityUser>? _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _db;
-        
+
         public DbInitializer(
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -21,47 +21,55 @@ namespace EcommerceStore.DataAccess.DbInitializer
             _roleManager = roleManager;
             _db = db;
         }
-        public void Initialize()
+        public async void Initialize()
         {
             //apply migrations if not appllied
 
             try
             {
-                if (_db.Database.GetPendingMigrations().Count()>0)
+                if (_db.Database.GetPendingMigrations().Count() > 0)
                 {
                     _db.Database.Migrate();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
 
             //create roles if not created
 
-            if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
+            if (!_roleManager.RoleExistsAsync(SD.Role_SuperAdmin).GetAwaiter().GetResult())
             {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_SuperAdmin)).GetAwaiter().GetResult();
+                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Indi)).GetAwaiter().GetResult();
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Comp)).GetAwaiter().GetResult();
 
                 //if roles not created. then create admin user as well
-                _userManager.CreateAsync(new ApplicationUser
+                try
                 {
-                    UserName = "superadmin@ecomstore.com",
-                    Email = "superadmin@ecomstore.com",
-                    Name = "Sadia Waheed",
-                    PhoneNumber = "090078601",
-                    StreetAddress = "b12 renegade ave",
-                    State = "IL",
-                    PostalCode = "12312",
-                    City = "Chicago"
-                }, "Abcd@1234");
+                    var createUserResult = _userManager.CreateAsync(new ApplicationUser
+                    {
+                        UserName = "superadmin@ecomstore.com",
+                        Email = "superadmin@ecomstore.com",
+                        Name = "Sadia Waheed",
+                        PhoneNumber = "090078601",
+                        StreetAddress = "b12 renegade ave",
+                        State = "IL",
+                        PostalCode = "12312",
+                        City = "Chicago"
+                    }, "Abcd@1234").GetAwaiter().GetResult();
+                    if (createUserResult.Succeeded)
+                    {
+                        ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(i => i.Email == "superadmin@ecomstore.com");
+                        _userManager.AddToRoleAsync(user, SD.Role_SuperAdmin).GetAwaiter().GetResult();
+                    }
+                }
+                catch (Exception ex) { 
+                }
 
-                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(i => i.Email == "superadmin@ecomstore.com");
 
-                _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
             return;
         }
