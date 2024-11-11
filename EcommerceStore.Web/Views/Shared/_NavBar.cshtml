@@ -13,7 +13,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-light" asp-area="User" asp-controller="Home" asp-action="Index">Home  <span class="visually-hidden">(current)</span></a>
                 </li>
-                @if(User.IsInRole(SD.Role_SuperAdmin))
+                @if (User.IsInRole(SD.Role_SuperAdmin))
                 {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Settings</a>

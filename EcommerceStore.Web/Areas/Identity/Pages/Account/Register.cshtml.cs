@@ -8,13 +8,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
-using System.Threading;
-using System.Threading.Tasks;
 using EcommerceStore.DataAccess.Repository.IRepository;
 using EcommerceStore.Model;
 using EcommerceStore.Utility;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -22,9 +19,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 
-namespace eComStore.Web.Areas.Identity.Pages.Account
+namespace EcommerceStore.Web.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
@@ -110,12 +106,12 @@ namespace eComStore.Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
             [Required]
             public string Name { get; set; }
-            public string? StreetAddress { get; set; }
-            public string? City { get; set; }
-            public string? State { get; set; }
-            public string? PostalCode { get; set; }
-            public string? PhoneNumber { get; set; }
-            public string? Role { get; set; }
+            public string StreetAddress { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public string PostalCode { get; set; }
+            public string PhoneNumber { get; set; }
+            public string Role { get; set; }
             public int? CompanyId { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }

@@ -59,8 +59,9 @@ app.UseRouting();
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 SeedDatabase();
-app.UseAuthorization();
+app.UseAuthentication();
 
+app.UseAuthorization();
 app.UseSession();
 
 app.MapRazorPages();

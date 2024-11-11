@@ -185,7 +185,7 @@ namespace EcommerceStore.Web.Areas.User.Controllers
                 }
             }
 
-            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - eComStore", "<p>New Order Placed</p>");
+            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - EcommerceStore", "<p>New Order Placed</p>");
 
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(i => i.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
             _unitOfWork.ShoppingCart.RemoveRange(shoppingCarts);

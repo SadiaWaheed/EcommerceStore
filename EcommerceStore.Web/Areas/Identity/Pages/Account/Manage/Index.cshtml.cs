@@ -3,16 +3,14 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
-using EcommerceStore.DataAccess.Repository;
 using EcommerceStore.DataAccess.Repository.IRepository;
-using EcommerceStore.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace eComStore.Web.Areas.Identity.Pages.Account.Manage
+namespace EcommerceStore.Web.Areas.Identity.Pages.Account.Manage
 {
     public class IndexModel : PageModel
     {
@@ -64,14 +62,14 @@ namespace eComStore.Web.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Email")]
             public string Email { get; set; }
             public string Name { get; set; }
-            public string? StreetAddress { get; set; }
-            public string? City { get; set; }
-            public string? State { get; set; }
-            public string? PostalCode { get; set; }
+            public string StreetAddress { get; set; }
+            public string City { get; set; }
+            public string State { get; set; }
+            public string PostalCode { get; set; }
             [Phone]
             [Display(Name = "Phone number")]
-            public string? PhoneNumber { get; set; }
-            public string? Role { get; set; }
+            public string PhoneNumber { get; set; }
+            public string Role { get; set; }
             public int? CompanyId { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
