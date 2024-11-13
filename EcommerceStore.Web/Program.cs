@@ -34,6 +34,12 @@ builder.Services.ConfigureApplicationCookie(options => {
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
+//Adding multiple role policy
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin&SuperAdmin",
+        policy => policy.RequireRole(SD.Role_Admin,SD.Role_SuperAdmin));
+});
 //Session cart items
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
