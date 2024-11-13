@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace EcommerceStore.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Policy = "Admin&SuperAdmin")]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _db;

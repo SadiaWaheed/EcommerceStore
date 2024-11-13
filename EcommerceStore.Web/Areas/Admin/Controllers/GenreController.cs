@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EcommerceStore.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles =SD.Role_Admin)]
+    [Authorize(Policy = "Admin&SuperAdmin")]
     public class GenreController : Controller
     {
         private readonly IUnitOfWork _db;
